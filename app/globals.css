@@ -64,3 +64,25 @@ table.hx{min-width:0}table.hx th,table.hx td{text-align:left;vertical-align:top}
 .dock button{height:44px;padding:0 20px;border-radius:99px;border:0;background:var(--lime);color:var(--on);font:700 15px var(--f-b),system-ui,sans-serif;cursor:pointer}
 @media(min-width:900px){.dock{display:none}}
 @media(max-width:480px){.card{padding:16px;border-radius:22px}.bar{grid-template-columns:104px 1fr 32px}}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.nav{display:flex;gap:4px;padding:4px;background:var(--c1);border:1px solid var(--line);border-radius:99px}
+.nav a{height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 20px;border-radius:99px;color:var(--mut);text-decoration:none;font-weight:600}
+.nav a.on{background:var(--limed);color:var(--lime)}
+.cnt{min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:var(--lime);color:var(--on);font-size:.78rem;font-weight:700;display:inline-grid;place-items:center}
+@media(max-width:600px){.nav{width:100%}.nav a{flex:1}}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}.ph h2{margin:0}
+.sv{height:44px;padding:0 20px;border-radius:99px;border:0;background:var(--lime);color:var(--on);font:700 15px var(--f-b),system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+@media(max-width:899px){.ph .sv{display:none}}
+.dock button.gh{background:var(--c2);color:var(--ink)}
+.fgrid{display:grid;gap:16px}
+@media(min-width:900px){.fgrid{grid-template-columns:1fr 340px;align-items:start}}
+.plist{list-style:none;margin:0 0 8px;padding:0}
+.plist li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.plist div{flex:1;min-width:0}.plist b{display:block}.plist small{display:block;color:var(--mut)}
+.rm{width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--c2);color:var(--mut);font-size:1rem;cursor:pointer}
+.ghost{background:none;border:0;color:var(--mut);font:600 .9rem var(--f-b),system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:10px 0}
+.empty{text-align:center;padding:40px 20px}.empty h2{margin-bottom:8px}
+.empty p{color:var(--mut);max-width:44ch;margin:0 auto 20px}
+a.btn{display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:99px;background:var(--lime);color:var(--on);font-weight:700;text-decoration:none}
+.nav a:focus-visible,a.btn:focus-visible,.rm:focus-visible,.sv:focus-visible,.ghost:focus-visible{outline:2px solid var(--lime);outline-offset:2px}

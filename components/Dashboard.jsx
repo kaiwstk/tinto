@@ -2,40 +2,14 @@
 import { useState } from 'react';
 import { AX, V, P, R, O } from '../lib/data';
 import { compute } from '../lib/model';
+import Nav from './Nav';
+import Hex from './Hex';
+import { useProfiles } from '../lib/store';
 
 const f1 = (x) => x.toFixed(1);
 const en = (x) => x.toLocaleString('en-US');
 const REGIONS = ['Africa', 'Asia', 'Americas'];
 const TABS = [['p', 'Profile'], ['b', 'Breakdown'], ['n', 'Additional Notes']];
-
-const pts = (vals) =>
-  vals.map((x, i) => {
-    const t = -Math.PI / 2 + (i * Math.PI) / 3;
-    return (160 + ((105 * x) / 10) * Math.cos(t)).toFixed(1) + ',' + (160 + ((105 * x) / 10) * Math.sin(t)).toFixed(1);
-  });
-
-function Hex({ sub }) {
-  const p = pts(sub.map((q) => q[1]));
-  return (
-    <svg viewBox="-30 4 380 320">
-      {[2.5, 5, 7.5, 10].map((v) => <polygon key={v} className="ring" points={pts(Array(6).fill(v)).join(' ')} />)}
-      {sub.map((q, i) => {
-        const t = -Math.PI / 2 + (i * Math.PI) / 3, c = Math.cos(t), s = Math.sin(t), x = (160 + 134 * c).toFixed(1);
-        return (
-          <g key={q[0]}>
-            <line className="ax" x1="160" y1="160" x2={(160 + 105 * c).toFixed(1)} y2={(160 + 105 * s).toFixed(1)} />
-            <text x={x} y={(162 + 134 * s).toFixed(1)} textAnchor={Math.abs(c) < 0.3 ? 'middle' : c > 0 ? 'start' : 'end'}>
-              {q[0].replace('Flavour c', 'C')}
-              <tspan x={x} dy="18">{f1(q[1])}</tspan>
-            </text>
-          </g>
-        );
-      })}
-      <polygon className="sh" points={p.join(' ')} />
-      {p.map((z, i) => { const k = z.split(','); return <circle key={i} className="dt" cx={k[0]} cy={k[1]} r="4.5" />; })}
-    </svg>
-  );
-}
 
 const Row = ({ n, x, total }) => (
   <tr className={total ? 't' : undefined}>
@@ -54,18 +28,17 @@ export default function Dashboard() {
   const on = (k) => (e) => setS((prev) => ({ ...prev, [k]: +e.target.value }));
   const { o, v, p, a, pre, altv, sub, pick, fam, out } = compute(s);
   const alt = s.alt, r = s.r;
+  const { add } = useProfiles();
+  const [flash, setFlash] = useState('');
+  const save = () => {
+    setFlash(add(s) === 'dup' ? 'Already saved' : 'Saved ✓');
+    setTimeout(() => setFlash(''), 1800);
+  };
   const mx = Math.max(...sub.map((q) => q[1]));
 
   return (
     <div className="wrap">
-      <div className="brand">
-        <svg viewBox="0 0 32 32" aria-hidden="true">
-          <circle cx="16" cy="16" r="16" fill="#d4ff4a" />
-          <ellipse cx="16" cy="16" rx="6" ry="9.5" transform="rotate(32 16 16)" fill="#101010" />
-          <path d="M11.5 21.5c4-3.5 5-6.5 9-11" stroke="#d4ff4a" strokeWidth="1.7" fill="none" strokeLinecap="round" />
-        </svg>
-        TINTO
-      </div>
+      <Nav />
       <div className="head">
         <h1>Coffee Flavour Index</h1>
         <p className="meta">{[o[0], v[0], p[0], R[r][0] + ' roast', en(alt) + ' m'].join(' · ')}</p>
@@ -120,7 +93,10 @@ export default function Dashboard() {
           </div>
 
           <div className="card" hidden={tab !== 'p'}>
-            <h2>{fam}</h2>
+            <div className="ph">
+              <h2>{fam}</h2>
+              <button type="button" className="sv" aria-live="polite" onClick={save}>{flash || 'Save to my taste'}</button>
+            </div>
             <div className="ncs">
               {pick.map((x, i) => (
                 <div className={'nc' + (i ? '' : ' hl')} key={x.k}>
@@ -185,7 +161,8 @@ export default function Dashboard() {
 
       <div className="dock">
         <div><b>{fam}</b><small>{pick.map((x) => x.n[0]).join(' · ')}</small></div>
-        <button type="button" onClick={() => { setTab('p'); document.getElementById('res')?.scrollIntoView({ behavior: 'smooth' }); }}>View profile</button>
+        <button type="button" className="gh" onClick={() => { setTab('p'); document.getElementById('res')?.scrollIntoView({ behavior: 'smooth' }); }}>View</button>
+        <button type="button" aria-live="polite" onClick={save}>{flash || 'Save'}</button>
       </div>
     </div>
   );

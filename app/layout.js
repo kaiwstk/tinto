@@ -1,8 +1,7 @@
-import { Bricolage_Grotesque, Instrument_Sans } from 'next/font/google';
+import { Urbanist } from 'next/font/google';
 import './globals.css';
 
-const display = Bricolage_Grotesque({ subsets: ['latin'], weight: ['500', '700'], variable: '--f-d', display: 'swap' });
-const body = Instrument_Sans({ subsets: ['latin'], weight: ['400', '600'], variable: '--f-b', display: 'swap' });
+const body = Urbanist({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--f-b', display: 'swap' });
 
 export const metadata = {
   title: 'Coffee Flavour Index',
@@ -13,12 +12,12 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#1a1410',
+  themeColor: '#0b0b0b',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={body.variable}>
       <body>{children}</body>
     </html>
   );

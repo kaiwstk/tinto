@@ -17,11 +17,17 @@ npm run dev      # http://localhost:3000
 ## Structure
 ```
 app/layout.js            fonts, metadata, viewport
-app/page.js              renders the dashboard
+app/page.js              the explorer (main dashboard)
+app/fingerprint/page.js  the My Taste fingerprint page
 app/globals.css          all styling (dark theme tokens at the top)
-components/Dashboard.jsx inputs, hexagon, tasting notes, breakdown table
+components/Dashboard.jsx explorer: inputs, hexagon, tasting notes, breakdown, Save button
+components/Fingerprint.jsx saved profiles and the combined fingerprint
+components/Hex.jsx       shared hexagon chart
+components/Nav.jsx       brand and page navigation
 lib/data.js              the flavour index data: origins, varietals, processes, roasts, notes
 lib/model.js             scoring logic: compute(state) -> axes, hexagon traits, notes
+lib/fingerprint.js       combines saved profiles (mean traits, summed note weights)
+lib/store.js             saved profiles in the browser's localStorage
 ```
 
 ## Tuning the model
